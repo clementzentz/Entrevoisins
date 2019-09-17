@@ -25,8 +25,11 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
 
     private final List<Neighbour> mNeighbours;
 
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
+    private LaunchDetailActivity mInterface;
+
+    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, LaunchDetailActivity anInterface) {
         mNeighbours = items;
+        mInterface = anInterface;
     }
 
     @Override
@@ -45,10 +48,12 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
-        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+        holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
+                mInterface.LaunchMyActivity(neighbour);
             }
         });
     }
@@ -65,10 +70,12 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         public TextView mNeighbourName;
         @BindView(R.id.item_list_delete_button)
         public ImageButton mDeleteButton;
+        public View mView;
 
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            mView = view;
         }
     }
 }
