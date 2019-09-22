@@ -35,7 +35,7 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
 
     ListNeighbourPagerAdapter mPagerAdapter;
 
-    private  void initList(){
+    private void initList(){
         mNeighboursFavorisList = new ArrayList<>();
         mNeighboursList = new ArrayList<>();
     }
@@ -52,6 +52,12 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         initList();
+
+        try{
+            isFavoris();
+        }catch (NullPointerException e){
+
+        }
 
         TabLayout tabFavoris = findViewById(R.id.tabs);
         tabFavoris.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -74,7 +80,7 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
         });
     }
 
-    @Override //TODO la fonction ne récupère pas encore le résultat de DetailNeighbourActivity
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (NeighbourFragment.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
@@ -86,8 +92,6 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
     private void isFavoris(){
         if(currentNeighbour.getFavoris()){
             mNeighboursFavorisList.add(currentNeighbour);
-        }else{
-            mNeighboursList.add(currentNeighbour);
         }
     }
 }

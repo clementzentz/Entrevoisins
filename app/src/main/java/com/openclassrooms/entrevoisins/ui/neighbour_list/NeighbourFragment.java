@@ -1,11 +1,8 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
-import android.arch.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +20,6 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NeighbourFragment extends Fragment implements LaunchDetailActivity {
@@ -76,11 +72,11 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
     public void LaunchMyActivity(Neighbour neighbour) {
         Intent intent = new Intent(getActivity(), DetailNeighbourActivity.class);
         intent.putExtra("neighbour", neighbour);
-        //TODO
-        startActivityForResult(intent, DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE);
+        getActivity().startActivityForResult(intent,DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE);
     }
 
-    public void swap(ArrayList<Neighbour> list) {
+    //TODO : récupérer la list de ListNeighbourActivity dans le fragment
+    public void swap(List<Neighbour> list) {
         mNeighbours.clear();
         mNeighbours.addAll(list);
         mMyNeighbourRecyclerViewAdapter.notifyDataSetChanged();
