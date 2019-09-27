@@ -20,6 +20,7 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NeighbourFragment extends Fragment implements LaunchDetailActivity {
@@ -45,6 +46,10 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mApiService = DI.getNeighbourApiService();
+        mNeighbours = new ArrayList<>();
+        if (getArguments() != null){
+            mNeighbours = (ArrayList<Neighbour>) getArguments().getSerializable(ListNeighbourActivity.bundleListNeighbour);
+        }
     }
 
     @Override
@@ -62,8 +67,7 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
     /**
      * Init the List of neighbours
      */
-    private void initList() {
-        mNeighbours = mApiService.getNeighbours();
+    public void initList() {
         mMyNeighbourRecyclerViewAdapter = new MyNeighbourRecyclerViewAdapter(mNeighbours,this);
         mRecyclerView.setAdapter(mMyNeighbourRecyclerViewAdapter);
     }
@@ -75,8 +79,7 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
         getActivity().startActivityForResult(intent,DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE);
     }
 
-    //TODO : récupérer la list de ListNeighbourActivity dans le fragment
-    public void swap(List<Neighbour> list) {
+    public void updateList(List<Neighbour> list) {
         mNeighbours.clear();
         mNeighbours.addAll(list);
         mMyNeighbourRecyclerViewAdapter.notifyDataSetChanged();

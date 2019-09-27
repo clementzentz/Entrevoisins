@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,15 +31,22 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
     @BindView(R.id.container)
     ViewPager mViewPager;
 
+    public static final String bundleListNeighbour = "bundleListNeighbour";
+
     public List<Neighbour> mNeighboursFavorisList;
     public List<Neighbour> mNeighboursList;
     private Neighbour currentNeighbour;
 
+    NeighbourApiService mNeighbourApiService;
+
     ListNeighbourPagerAdapter mPagerAdapter;
 
-    private void initList(){
+    private NeighbourFragment mNeighbourFragment;
+    private NeighbourFragment mNeighbourFragmentFavoris;
+
+    private void initList1(){
+        mNeighboursList = mNeighbourApiService.getNeighbours();
         mNeighboursFavorisList = new ArrayList<>();
-        mNeighboursList = new ArrayList<>();
     }
 
     @Override
@@ -46,38 +55,26 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
         setContentView(R.layout.activity_list_neighbour);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+
+        mNeighbourApiService = DI.getNeighbourApiService();
+        initList1();
+
+        mNeighbourFragment = NeighbourFragment.newInstance();
+        mNeighbourFragmentFavoris = NeighbourFragment.newInstance();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(bundleListNeighbour, (Serializable)mNeighboursList);
+        mNeighbourFragment.setArguments(bundle);
+
         mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
+
+        mPagerAdapter.addFragment(mNeighbourFragment);
+        mPagerAdapter.addFragment(mNeighbourFragmentFavoris);
+
         mViewPager.setAdapter(mPagerAdapter);
+
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-        initList();
-
-        try{
-            isFavoris();
-        }catch (NullPointerException e){
-
-        }
-
-        TabLayout tabFavoris = findViewById(R.id.tabs);
-        tabFavoris.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition()==1){
-                    //mettre à jour la recyclerview
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
     }
 
     @Override
@@ -86,12 +83,22 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
         if (NeighbourFragment.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
             currentNeighbour = (Neighbour)data.getSerializableExtra(DetailNeighbourActivity.BUNDLE_EXTRA_FAVORIS);
             Toast.makeText(this, currentNeighbour.getName(), Toast.LENGTH_LONG).show();
+            //TODO
+            try{
+                isFavoris();
+                mNeighbourFragmentFavoris.updateList(mNeighboursFavorisList);
+            }catch (NullPointerException e){
+
+            }
+
         }
     }
 
     private void isFavoris(){
         if(currentNeighbour.getFavoris()){
-            mNeighboursFavorisList.add(currentNeighbour);
+            if (!mNeighboursFavorisList.contains(currentNeighbour)){
+                mNeighboursFavorisList.add(currentNeighbour);
+            }
         }
     }
 }
