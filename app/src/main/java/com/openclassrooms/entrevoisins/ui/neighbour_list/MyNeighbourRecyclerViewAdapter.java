@@ -25,9 +25,9 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
 
     private final List<Neighbour> mNeighbours;
 
-    private LaunchDetailActivity mInterface;
+    private FragmentToRVAdapter mInterface;
 
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, LaunchDetailActivity anInterface) {
+    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, FragmentToRVAdapter anInterface) {
         mNeighbours = items;
         mInterface = anInterface;
     }
@@ -48,7 +48,14 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
-        holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));
+      /*  holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));*/
+
+        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterface.callRemoveNeighbour(neighbour);
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

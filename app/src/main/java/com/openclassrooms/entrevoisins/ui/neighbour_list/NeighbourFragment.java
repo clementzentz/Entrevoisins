@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
@@ -20,16 +19,16 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-public class NeighbourFragment extends Fragment implements LaunchDetailActivity {
-
-    public static final int DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE = 21;
+public class NeighbourFragment extends Fragment implements Serializable, FragmentToRVAdapter {
 
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
+    private ListActivityToFragment mListActivityToFragment;
+    private boolean mFragmentFavoris;
 
     private MyNeighbourRecyclerViewAdapter mMyNeighbourRecyclerViewAdapter;
 
@@ -37,18 +36,26 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
      * Create and return a new instance
      * @return @{@link NeighbourFragment}
      */
-    public static NeighbourFragment newInstance() {
+    public static NeighbourFragment newInstance(List<Neighbour> list, boolean favoris) {
         NeighbourFragment fragment = new NeighbourFragment();
+        Bundle bundle = new Bundle();
+        //TODO l'application plante lorsqu'on Serialize l'interface dans le fragment
+        bundle.putSerializable(AllKeys.BUNDLE_FRAG_INIT_LIST_NEIGHBOUR, (Serializable) list);
+        bundle.putSerializable(AllKeys.BUNDLE_FRAG_INIT_ISFAVORIS, favoris);
+        fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public void setInterface(ListActivityToFragment listActivityToFragment){
+        mListActivityToFragment = listActivityToFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApiService = DI.getNeighbourApiService();
-        mNeighbours = new ArrayList<>();
         if (getArguments() != null){
-            mNeighbours = (ArrayList<Neighbour>) getArguments().getSerializable(ListNeighbourActivity.bundleListNeighbour);
+            mNeighbours = (List<Neighbour>) this.getArguments().getSerializable(AllKeys.BUNDLE_FRAG_INIT_LIST_NEIGHBOUR);
+            mFragmentFavoris = this.getArguments().getBoolean(AllKeys.BUNDLE_FRAG_INIT_ISFAVORIS);
         }
     }
 
@@ -60,41 +67,44 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        initList();
+        initList(this.mNeighbours);
         return view;
     }
 
     /**
      * Init the List of neighbours
      */
-    public void initList() {
+    public void initList(List<Neighbour> mNeighbours) {
         mMyNeighbourRecyclerViewAdapter = new MyNeighbourRecyclerViewAdapter(mNeighbours,this);
         mRecyclerView.setAdapter(mMyNeighbourRecyclerViewAdapter);
     }
 
     @Override
-    public void LaunchMyActivity(Neighbour neighbour) {
+    public void LaunchMyActivity (Neighbour neighbour) {
         Intent intent = new Intent(getActivity(), DetailNeighbourActivity.class);
-        intent.putExtra("neighbour", neighbour);
-        getActivity().startActivityForResult(intent,DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE);
+        intent.putExtra(AllKeys.INTENT_ENVOIE_DETAIL_NEIGHBOUR, neighbour);
+        getActivity().startActivityForResult(intent,AllKeys.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE);
     }
 
-    public void updateList(List<Neighbour> list) {
-        mNeighbours.clear();
-        mNeighbours.addAll(list);
-        mMyNeighbourRecyclerViewAdapter.notifyDataSetChanged();
+    @Override
+    public void callRemoveNeighbour(Neighbour neighbour) {
+        if (mFragmentFavoris){
+            mListActivityToFragment.removeNeighbourFavoris(neighbour);
+        }else {
+            mListActivityToFragment.removeNeighbour(neighbour);
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -103,7 +113,7 @@ public class NeighbourFragment extends Fragment implements LaunchDetailActivity 
      */
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
-        mApiService.deleteNeighbour(event.neighbour);
-        initList();
+        /*mApiService.deleteNeighbour(event.neighbour);
+        initList();*/
     }
 }

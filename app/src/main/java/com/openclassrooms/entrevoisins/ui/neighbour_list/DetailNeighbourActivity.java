@@ -16,8 +16,6 @@ import java.io.Serializable;
 
 public class DetailNeighbourActivity extends AppCompatActivity implements Serializable {
 
-    public static final String BUNDLE_EXTRA_FAVORIS = "BUNDLE_EXTRA_FAVORIS";
-
     private TextView neighbourWhiteNametxt;
     private  TextView neighbourBlackNametxt;
     private ImageView avatarImageView;
@@ -33,21 +31,20 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_neighbour);
 
+        initView();
         getIncomingNeighbour();
 
-        retourMainActivity = findViewById(R.id.return_mainActivity_btn);
         retourMainActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO
                 Intent intent = new Intent();
-                intent.putExtra(BUNDLE_EXTRA_FAVORIS, mCurrentNeighbour);
+                intent.putExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS, mCurrentNeighbour);
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
-        favorisFAB = findViewById(R.id.favories_fab);
         favorisFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,30 +54,36 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
     }
 
     private void getIncomingNeighbour(){
-            if (getIntent().hasExtra("neighbour")) {
-                mCurrentNeighbour = (Neighbour) getIntent().getSerializableExtra("neighbour");
-                String imageAvatarUrl =  mCurrentNeighbour.getAvatarUrl().replaceAll("150", "300");
+            if (getIntent().hasExtra(AllKeys.INTENT_ENVOIE_DETAIL_NEIGHBOUR)) {
+                mCurrentNeighbour = (Neighbour) getIntent().getSerializableExtra(AllKeys.INTENT_ENVOIE_DETAIL_NEIGHBOUR);
+                String imageAvatarUrl =  mCurrentNeighbour.getAvatarUrl();
                 String neighbourName = mCurrentNeighbour.getName();
                 String neighbourPhone = mCurrentNeighbour.getPhone();
                 setActivityView(imageAvatarUrl, neighbourName, neighbourPhone);
             }
         }
 
+    private void initView(){
+        neighbourWhiteNametxt = findViewById(R.id.avatar_whiteName_txt);
+        neighbourBlackNametxt = findViewById(R.id.avatar_blackName_txt);
+        avatarImageView = findViewById(R.id.avatar_url_img);
+        neighbourPhone = findViewById(R.id.phone_txt);
+        favorisFAB = findViewById(R.id.favories_fab);
+        retourMainActivity = findViewById(R.id.return_mainActivity_btn);
+    }
+
     private void setActivityView(String anImageAvatarUrl, String aNeighbourName, String aNeighbourPhone){
 
-        neighbourWhiteNametxt = findViewById(R.id.avatar_whiteName_txt);
         neighbourWhiteNametxt.setText(aNeighbourName);
 
-        neighbourBlackNametxt = findViewById(R.id.avatar_blackName_txt);
         neighbourBlackNametxt.setText(aNeighbourName);
 
-        avatarImageView = findViewById(R.id.avatar_url_img);
         Glide.with(this)
                 .asBitmap()
                 .load(anImageAvatarUrl)
+                .override(300,300)
                 .into(avatarImageView);
 
-        neighbourPhone = findViewById(R.id.phone_txt);
         neighbourPhone.setText(aNeighbourPhone);
     }
 }

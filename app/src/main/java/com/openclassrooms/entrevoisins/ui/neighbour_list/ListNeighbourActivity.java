@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
@@ -21,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListNeighbourActivity extends AppCompatActivity implements Serializable {
+public class ListNeighbourActivity extends AppCompatActivity implements ListActivityToFragment ,Serializable {
 
     // UI Components
     @BindView(R.id.tabs)
@@ -30,8 +29,6 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
     Toolbar mToolbar;
     @BindView(R.id.container)
     ViewPager mViewPager;
-
-    public static final String bundleListNeighbour = "bundleListNeighbour";
 
     public List<Neighbour> mNeighboursFavorisList;
     public List<Neighbour> mNeighboursList;
@@ -59,12 +56,11 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
         mNeighbourApiService = DI.getNeighbourApiService();
         initList1();
 
-        mNeighbourFragment = NeighbourFragment.newInstance();
-        mNeighbourFragmentFavoris = NeighbourFragment.newInstance();
+        mNeighbourFragment = NeighbourFragment.newInstance(mNeighboursList, false);
+        mNeighbourFragmentFavoris = NeighbourFragment.newInstance(mNeighboursFavorisList, true);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(bundleListNeighbour, (Serializable)mNeighboursList);
-        mNeighbourFragment.setArguments(bundle);
+        mNeighbourFragment.setInterface(this);
+        mNeighbourFragmentFavoris.setInterface(this);
 
         mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
 
@@ -80,25 +76,34 @@ public class ListNeighbourActivity extends AppCompatActivity implements Serializ
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (NeighbourFragment.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            currentNeighbour = (Neighbour)data.getSerializableExtra(DetailNeighbourActivity.BUNDLE_EXTRA_FAVORIS);
-            Toast.makeText(this, currentNeighbour.getName(), Toast.LENGTH_LONG).show();
-            //TODO
-            try{
-                isFavoris();
-                mNeighbourFragmentFavoris.updateList(mNeighboursFavorisList);
-            }catch (NullPointerException e){
-
-            }
-
+        if (AllKeys.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
+            currentNeighbour = (Neighbour)data.getSerializableExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS);
+            addNeighbourToListFavoris(currentNeighbour);
+            mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
         }
     }
 
-    private void isFavoris(){
-        if(currentNeighbour.getFavoris()){
+    private void addNeighbourToListFavoris(Neighbour currentNeighbour){
+        if(currentNeighbour.isFavoris()){
             if (!mNeighboursFavorisList.contains(currentNeighbour)){
                 mNeighboursFavorisList.add(currentNeighbour);
             }
         }
+    }
+
+    @Override
+    public void removeNeighbour(Neighbour neighbour) {
+        mNeighboursList.remove(neighbour);
+        mNeighbourFragment.initList(mNeighboursList);
+        if (mNeighboursFavorisList.contains(neighbour)){
+            mNeighboursFavorisList.remove(neighbour);
+            mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
+        }
+    }
+
+    @Override
+    public void removeNeighbourFavoris(Neighbour neighbour) {
+        mNeighboursFavorisList.remove(neighbour);
+        mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
     }
 }

@@ -61,7 +61,7 @@ public class Neighbour implements Serializable {
         return phone;
     }
 
-    public boolean getFavoris(){
+    public boolean isFavoris(){
         return isFavoris;
     }
 
