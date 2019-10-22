@@ -20,6 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NeighbourFragment extends Fragment implements Serializable, FragmentToRVAdapter {
@@ -49,10 +50,11 @@ public class NeighbourFragment extends Fragment implements Serializable, Fragmen
     public void setInterface(ListActivityToFragment listActivityToFragment){
         mListActivityToFragment = listActivityToFragment;
     }
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNeighbours = new ArrayList<>();
         if (getArguments() != null){
             mNeighbours = (List<Neighbour>) this.getArguments().getSerializable(AllKeys.BUNDLE_FRAG_INIT_LIST_NEIGHBOUR);
             mFragmentFavoris = this.getArguments().getBoolean(AllKeys.BUNDLE_FRAG_INIT_ISFAVORIS);

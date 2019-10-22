@@ -53,7 +53,7 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
         });
     }
 
-    private void getIncomingNeighbour(){
+    public void getIncomingNeighbour(){
             if (getIntent().hasExtra(AllKeys.INTENT_ENVOIE_DETAIL_NEIGHBOUR)) {
                 mCurrentNeighbour = (Neighbour) getIntent().getSerializableExtra(AllKeys.INTENT_ENVOIE_DETAIL_NEIGHBOUR);
                 String imageAvatarUrl =  mCurrentNeighbour.getAvatarUrl();
@@ -63,7 +63,7 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
             }
         }
 
-    private void initView(){
+    public void initView(){
         neighbourWhiteNametxt = findViewById(R.id.avatar_whiteName_txt);
         neighbourBlackNametxt = findViewById(R.id.avatar_blackName_txt);
         avatarImageView = findViewById(R.id.avatar_url_img);
@@ -72,7 +72,7 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
         retourMainActivity = findViewById(R.id.return_mainActivity_btn);
     }
 
-    private void setActivityView(String anImageAvatarUrl, String aNeighbourName, String aNeighbourPhone){
+    public void setActivityView(String anImageAvatarUrl, String aNeighbourName, String aNeighbourPhone){
 
         neighbourWhiteNametxt.setText(aNeighbourName);
 
