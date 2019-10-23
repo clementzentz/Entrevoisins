@@ -11,10 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -53,7 +50,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterface.callRemoveNeighbour(neighbour);
+                mInterface.callDeleteNeighbour(neighbour);
             }
         });
 

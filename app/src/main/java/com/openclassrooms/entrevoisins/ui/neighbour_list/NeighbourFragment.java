@@ -12,11 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
@@ -25,7 +24,6 @@ import java.util.List;
 
 public class NeighbourFragment extends Fragment implements Serializable, FragmentToRVAdapter {
 
-    private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
     private ListActivityToFragment mListActivityToFragment;
@@ -50,11 +48,10 @@ public class NeighbourFragment extends Fragment implements Serializable, Fragmen
     public void setInterface(ListActivityToFragment listActivityToFragment){
         mListActivityToFragment = listActivityToFragment;
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNeighbours = new ArrayList<>();
         if (getArguments() != null){
             mNeighbours = (List<Neighbour>) this.getArguments().getSerializable(AllKeys.BUNDLE_FRAG_INIT_LIST_NEIGHBOUR);
             mFragmentFavoris = this.getArguments().getBoolean(AllKeys.BUNDLE_FRAG_INIT_ISFAVORIS);
@@ -89,11 +86,11 @@ public class NeighbourFragment extends Fragment implements Serializable, Fragmen
     }
 
     @Override
-    public void callRemoveNeighbour(Neighbour neighbour) {
-        if (mFragmentFavoris){
-            mListActivityToFragment.removeNeighbourFavoris(neighbour);
+    public void callDeleteNeighbour(Neighbour neighbour) {
+        if(mFragmentFavoris){
+            mListActivityToFragment.callBackDeleteNeighbourFavoris(neighbour);
         }else {
-            mListActivityToFragment.removeNeighbour(neighbour);
+            mListActivityToFragment.callBackDeleteNeighbour(neighbour);
         }
     }
 

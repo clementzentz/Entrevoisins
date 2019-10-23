@@ -4,5 +4,5 @@ import com.openclassrooms.entrevoisins.model.Neighbour;
 
 public interface FragmentToRVAdapter {
      void LaunchMyActivity(Neighbour neighbour);
-     void callRemoveNeighbour(Neighbour neighbour);
+     void callDeleteNeighbour(Neighbour neighbour);
 }

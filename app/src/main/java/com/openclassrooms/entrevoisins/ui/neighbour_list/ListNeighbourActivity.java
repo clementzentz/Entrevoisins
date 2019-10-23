@@ -14,7 +14,6 @@ import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,20 +40,16 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
     private NeighbourFragment mNeighbourFragment;
     private NeighbourFragment mNeighbourFragmentFavoris;
 
-    private void initListsNeighboursActivity(){
-        mNeighboursList = mNeighbourApiService.getNeighbours();
-        mNeighboursFavorisList = new ArrayList<>();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_neighbour);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-
         mNeighbourApiService = DI.getNeighbourApiService();
-        initListsNeighboursActivity();
+
+        mNeighboursList = mNeighbourApiService.getNeighbours();
+        mNeighboursFavorisList = mNeighbourApiService.getNeighboursFavoris();
 
         mNeighbourFragment = NeighbourFragment.newInstance(mNeighboursList, false);
         mNeighbourFragmentFavoris = NeighbourFragment.newInstance(mNeighboursFavorisList, true);
@@ -78,41 +73,35 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
         super.onActivityResult(requestCode, resultCode, data);
         if (AllKeys.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
             currentNeighbour = (Neighbour)data.getSerializableExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS);
-            addNeighbourToListFavoris(currentNeighbour, mNeighboursFavorisList);
-            mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
+            callAddNeighbourToListFavoris(currentNeighbour);
         }
     }
 
     //TODO : implémenter ces methodes dans le service
-    public void addNeighbourToListFavoris(Neighbour currentNeighbour, List<Neighbour> neighboursFavorisList){
+    public void callAddNeighbourToListFavoris(Neighbour currentNeighbour){
         if(currentNeighbour.isFavoris()){
-            if (!neighboursFavorisList.contains(currentNeighbour)){
-                neighboursFavorisList.add(currentNeighbour);
-            }
+            mNeighbourApiService.addNeighbourToListFavoris(currentNeighbour);
+            mNeighboursFavorisList = mNeighbourApiService.getNeighboursFavoris();
+            mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
         }
     }
 
     @Override
-    public void removeNeighbour(Neighbour neighbour) {
-        updateListAfterRemoveNeighbour(neighbour, mNeighboursList, mNeighboursFavorisList, mNeighbourFragment, mNeighbourFragmentFavoris);
-    }
-
-    public void updateListAfterRemoveNeighbour(Neighbour neighbour, List<Neighbour> neighboursList, List<Neighbour> neighboursFavorisList, NeighbourFragment neighbourFragment, NeighbourFragment neighbourFragmentFavoris) {
-        neighboursList.remove(neighbour);
-        neighbourFragment.initList(neighboursList);
-        if (neighboursFavorisList.contains(neighbour)){
-            neighboursFavorisList.remove(neighbour);
-            neighbourFragmentFavoris.initList(neighboursFavorisList);
+    public void callBackDeleteNeighbour(Neighbour neighbour) {
+        mNeighbourApiService.deleteNeighbour(neighbour);
+        mNeighboursList = mNeighbourApiService.getNeighbours();
+        mNeighbourFragment.initList(mNeighboursList);
+        if (mNeighboursFavorisList.contains(neighbour)){
+            mNeighbourApiService.deleteNeighbourFavoris(neighbour);
+            mNeighboursFavorisList = mNeighbourApiService.getNeighboursFavoris();
+            mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
         }
     }
 
     @Override
-    public void removeNeighbourFavoris(Neighbour neighbour) {
-        updateListAfterRemoveNeighbourFavoris(neighbour, mNeighboursFavorisList, mNeighbourFragmentFavoris);
-    }
-
-    public void updateListAfterRemoveNeighbourFavoris(Neighbour neighbour, List<Neighbour> neighboursFavorisList, NeighbourFragment neighbourFragmentFavoris){
-        neighboursFavorisList.remove(neighbour);
-        neighbourFragmentFavoris.initList(neighboursFavorisList);
+    public void callBackDeleteNeighbourFavoris(Neighbour neighbour) {
+        mNeighbourApiService.deleteNeighbourFavoris(neighbour);
+        mNeighboursFavorisList = mNeighbourApiService.getNeighboursFavoris();
+        mNeighbourFragmentFavoris.initList(mNeighboursFavorisList);
     }
 }
