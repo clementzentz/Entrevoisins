@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test on Neighbour service
@@ -39,5 +40,38 @@ public class NeighbourServiceTest {
         Neighbour neighbourToDelete = service.getNeighbours().get(0);
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
+    }
+
+    //TODO
+    @Test
+    public void deleteNeighbourFavorisWithSuccess() throws Exception {
+        //Arrange
+        Neighbour neighbourFavorisToDelete = service.getNeighbours().get(0);
+        service.addNeighbourToListFavoris(neighbourFavorisToDelete);
+        //Act
+        service.deleteNeighbourFavoris(neighbourFavorisToDelete);
+        //Assert
+        assertFalse(service.getNeighboursFavoris().contains(neighbourFavorisToDelete));
+    }
+
+    @Test
+    public void deleteNeighbourFromBothLists() throws Exception {
+        //Arrange
+        Neighbour neighbourToDeleteInBothList = service.getNeighbours().get(0);
+        service.addNeighbourToListFavoris(neighbourToDeleteInBothList);
+        //Act
+        service.deleteNeighbour(neighbourToDeleteInBothList);
+        //Assert
+        assertFalse(service.getNeighbours().contains(neighbourToDeleteInBothList) && service.getNeighboursFavoris().contains(neighbourToDeleteInBothList));
+    }
+
+    @Test
+    public void addNeighbourToListFavorisWithsuccess() throws Exception {
+        //Arrange
+        Neighbour neighbourToAdd = service.getNeighbours().get(0);
+        //Act
+        service.addNeighbourToListFavoris(neighbourToAdd);
+        //Assert
+        assertTrue(service.getNeighboursFavoris().contains(neighbourToAdd));
     }
 }

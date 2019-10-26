@@ -21,10 +21,10 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
     private ImageView avatarImageView;
     private TextView neighbourPhone;
 
-    ImageButton retourMainActivity;
-    FloatingActionButton favorisFAB;
+    private ImageButton retourMainActivity;
+    private FloatingActionButton favorisFAB;
 
-    public Neighbour mCurrentNeighbour;
+    private Neighbour mCurrentNeighbour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
