@@ -29,13 +29,12 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
     @BindView(R.id.container)
     ViewPager mViewPager;
 
-    public List<Neighbour> mNeighboursFavorisList;
-    public List<Neighbour> mNeighboursList;
-    private Neighbour currentNeighbour;
+    private List<Neighbour> mNeighboursFavorisList;
+    private List<Neighbour> mNeighboursList;
 
-    NeighbourApiService mNeighbourApiService;
+    private NeighbourApiService mNeighbourApiService;
 
-    ListNeighbourPagerAdapter mPagerAdapter;
+    private ListNeighbourPagerAdapter mPagerAdapter;
 
     private NeighbourFragment mNeighbourFragment;
     private NeighbourFragment mNeighbourFragmentFavoris;
@@ -72,7 +71,7 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (AllKeys.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            currentNeighbour = (Neighbour)data.getSerializableExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS);
+            Neighbour currentNeighbour = (Neighbour) data.getSerializableExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS);
             callAddNeighbourToListFavoris(currentNeighbour);
         }
     }

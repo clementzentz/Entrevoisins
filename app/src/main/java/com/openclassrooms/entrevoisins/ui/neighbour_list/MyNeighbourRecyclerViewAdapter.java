@@ -13,6 +13,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,11 +26,12 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
 
     private FragmentToRVAdapter mInterface;
 
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, FragmentToRVAdapter anInterface) {
+    MyNeighbourRecyclerViewAdapter(List<Neighbour> items, FragmentToRVAdapter anInterface) {
         mNeighbours = items;
         mInterface = anInterface;
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

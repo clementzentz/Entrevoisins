@@ -10,7 +10,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 
@@ -44,6 +46,8 @@ public class NeighboursListTest {
 
     private ListNeighbourActivity mActivity;
 
+    private NeighbourApiService mNeighbourApiService;
+
     private static int listNeighbourFavorisCount = 1;
 
     @Rule
@@ -53,6 +57,7 @@ public class NeighboursListTest {
     @Before
     public void setUp() {
         mActivity = mActivityRule.getActivity();
+        mNeighbourApiService = DI.getNewInstanceApiService();
         assertThat(mActivity, notNullValue());
     }
 
@@ -80,9 +85,8 @@ public class NeighboursListTest {
         onView(withIndex(ViewMatchers.withId(R.id.list_neighbours),0)).check(withItemCount(ITEMS_COUNT-1));
     }
 
-    //TODO
     @Test
-    public void neighbourListFavoris_isDisplay_shouldDisplayOnlyFavoris(){
+    public void neighbourListFavoris_addNeighbourToListFavoris_listShouldOnlyDisplayFavoris(){
         onView(withIndex(ViewMatchers.withId(R.id.list_neighbours), 0)).check(matches(isDisplayed()));
         onView(withIndex(ViewMatchers.withId(R.id.list_neighbours), 0)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(ViewMatchers.withId(R.id.favories_fab)).perform(click());
