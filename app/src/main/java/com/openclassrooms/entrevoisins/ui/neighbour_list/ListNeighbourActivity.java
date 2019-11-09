@@ -34,8 +34,6 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
 
     private NeighbourApiService mNeighbourApiService;
 
-    private ListNeighbourPagerAdapter mPagerAdapter;
-
     private NeighbourFragment mNeighbourFragment;
     private NeighbourFragment mNeighbourFragmentFavoris;
 
@@ -56,12 +54,12 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
         mNeighbourFragment.setInterface(this);
         mNeighbourFragmentFavoris.setInterface(this);
 
-        mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
+        ListNeighbourPagerAdapter pagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
 
-        mPagerAdapter.addFragment(mNeighbourFragment);
-        mPagerAdapter.addFragment(mNeighbourFragmentFavoris);
+        pagerAdapter.addFragment(mNeighbourFragment);
+        pagerAdapter.addFragment(mNeighbourFragmentFavoris);
 
-        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setAdapter(pagerAdapter);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -71,8 +69,13 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (AllKeys.DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            Neighbour currentNeighbour = (Neighbour) data.getSerializableExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS);
-            callAddNeighbourToListFavoris(currentNeighbour);
+            Neighbour currentNeighbour = null;
+            if (data != null) {
+                currentNeighbour = (Neighbour) data.getSerializableExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS);
+            }
+            if (currentNeighbour != null) {
+                callAddNeighbourToListFavoris(currentNeighbour);
+            }
         }
     }
 

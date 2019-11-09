@@ -2,4 +2,18 @@
     <string name="app_name">Entrevoisins</string>
     <string name="tab_neighbour_title">My neighbours</string>
     <string name="tab_favorites_title">Favorites</string>
+    <string name="bouton_de_retour">bouton de retour</string>
+    <string name="white_name">Name</string>
+    <string name="bigger_neighbour_picture">bigger neighbour picture</string>
+    <string name="black_name">Name</string>
+    <string name="adresse">adresse</string>
+    <string name="phone_icon">phone icon</string>
+    <string name="ping_map_icon">ping map icon</string>
+    <string name="numero_de_telephone">numero de télephone</string>
+    <string name="network_icon">network icon</string>
+    <string name="radom_text">Primi igitur omnium statuuntur Epigonus et Eusebius ob nominum gentilitatem oppressi. praediximus enim Montium sub ipso vivendi termino his vocabulis appellatos fabricarum culpasse tribunos ut adminicula futurae molitioni pollicitos.</string>
+    <string name="network">network</string>
+    <string name="about_me">About me</string>
+    <string name="little_neighbour_picture">little neighbour picture</string>
+    <string name="delete_button">delete button</string>
 </resources>

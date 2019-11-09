@@ -69,10 +69,6 @@ public class Neighbour implements Serializable {
         isFavoris = favoris;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

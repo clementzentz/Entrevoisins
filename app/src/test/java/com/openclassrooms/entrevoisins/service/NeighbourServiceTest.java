@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -32,7 +33,7 @@ public class NeighbourServiceTest {
     public void getNeighboursWithSuccess() {
         List<Neighbour> neighbours = service.getNeighbours();
         List<Neighbour> expectedNeighbours = DummyNeighbourGenerator.DUMMY_NEIGHBOURS;
-        assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
+        assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(Objects.requireNonNull(expectedNeighbours.toArray())));
     }
 
     @Test
@@ -42,9 +43,8 @@ public class NeighbourServiceTest {
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
     }
 
-    //TODO
     @Test
-    public void deleteNeighbourFavorisWithSuccess() throws Exception {
+    public void deleteNeighbourFavorisWithSuccess() {
         //Arrange
         Neighbour neighbourFavorisToDelete = service.getNeighbours().get(0);
         service.addNeighbourToListFavoris(neighbourFavorisToDelete);
@@ -55,7 +55,7 @@ public class NeighbourServiceTest {
     }
 
     @Test
-    public void deleteNeighbourFromBothLists() throws Exception {
+    public void deleteNeighbourFromBothLists() {
         //Arrange
         Neighbour neighbourToDeleteInBothList = service.getNeighbours().get(0);
         service.addNeighbourToListFavoris(neighbourToDeleteInBothList);
@@ -66,7 +66,7 @@ public class NeighbourServiceTest {
     }
 
     @Test
-    public void addNeighbourToListFavorisWithsuccess() throws Exception {
+    public void addNeighbourToListFavorisWithsuccess() {
         //Arrange
         Neighbour neighbourToAdd = service.getNeighbours().get(0);
         //Act

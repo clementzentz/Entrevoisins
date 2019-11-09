@@ -5,14 +5,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
 
-    ArrayList<Fragment> fragmentList = new ArrayList<>();
+    private ArrayList<Fragment> fragmentList = new ArrayList<>();
 
-    public ListNeighbourPagerAdapter(FragmentManager fm) {
+    ListNeighbourPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -43,7 +42,7 @@ public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
         return POSITION_NONE;
     }
 
-    public void addFragment(Fragment fragment) {
+    void addFragment(Fragment fragment) {
         fragmentList.add(fragment);
     }
 }

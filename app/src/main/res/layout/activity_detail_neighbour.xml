@@ -48,7 +48,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/arrow_left"
-            android:elevation="2dp">
+            android:elevation="2dp"
+            android:contentDescription="@string/bouton_de_retour">
         </ImageButton>
 
         <ImageView
@@ -56,15 +57,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher_foreground">
+            android:src="@mipmap/ic_launcher_foreground"
+            android:contentDescription="@string/bigger_neighbour_picture">
         </ImageView>
 
         <TextView
             android:id="@+id/avatar_whiteName_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="40dp"
+            android:text="@string/white_name"
+            android:textSize="40sp"
             android:textColor="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="8dp"
@@ -86,11 +88,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Name"
-            android:textSize="30dp"
+            android:text="@string/black_name"
+            android:textSize="30sp"
             android:textColor="#000"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/localisation_img"
@@ -100,16 +102,17 @@
             android:scaleType="centerCrop"
             android:src="@drawable/marker"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatar_blackName_txt"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/avatar_blackName_txt"
+            android:contentDescription="@string/ping_map_icon" />
 
         <TextView
             android:id="@+id/localisation_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="adresse"
+            android:layout_marginStart="8dp"
+            android:text="@string/adresse"
             app:layout_constraintLeft_toRightOf="@id/localisation_img"
-            app:layout_constraintTop_toTopOf="@+id/localisation_img"></TextView>
+            app:layout_constraintTop_toTopOf="@+id/localisation_img" />
 
         <ImageView
             android:id="@+id/phone_img"
@@ -121,17 +124,18 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/localisation_img"
             app:layout_constraintStart_toStartOf="@id/localisation_img"
-            tools:layout_editor_absoluteY="102dp"></ImageView>
+            tools:layout_editor_absoluteY="102dp"
+            android:contentDescription="@string/phone_icon" />
 
         <TextView
             android:id="@+id/phone_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="numero de télephone"
+            android:layout_marginStart="8dp"
+            android:text="@string/numero_de_telephone"
             app:layout_constraintLeft_toRightOf="@id/phone_img"
             app:layout_constraintTop_toBottomOf="@+id/localisation_txt"
-            app:layout_constraintTop_toTopOf="@id/phone_img"></TextView>
+            app:layout_constraintTop_toTopOf="@id/phone_img" />
 
         <ImageView
             android:id="@+id/internet_img"
@@ -144,17 +148,18 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="@id/phone_img"
-            app:layout_constraintTop_toBottomOf="@id/phone_img"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/phone_img"
+            android:contentDescription="@string/network_icon" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="résaux"
+            android:layout_marginStart="8dp"
+            android:text="@string/network"
             app:layout_constraintLeft_toRightOf="@+id/internet_img"
             app:layout_constraintTop_toBottomOf="@+id/phone_txt"
-            app:layout_constraintTop_toTopOf="@id/internet_img"></TextView>
+            app:layout_constraintTop_toTopOf="@id/internet_img" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -172,18 +177,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="A propos de moi"
+            android:text="@string/about_me"
             android:textColor="#000"
-            android:textSize="30dp"
+            android:textSize="30sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Primi igitur omnium statuuntur Epigonus et Eusebius ob nominum gentilitatem oppressi. praediximus enim Montium sub ipso vivendi termino his vocabulis appellatos fabricarum culpasse tribunos ut adminicula futurae molitioni pollicitos."
-            app:layout_constraintTop_toBottomOf="@id/aboutMe_txt"></TextView>
+            android:text="@string/radom_text"
+            app:layout_constraintTop_toBottomOf="@id/aboutMe_txt" />
 
     </android.support.constraint.ConstraintLayout>
 

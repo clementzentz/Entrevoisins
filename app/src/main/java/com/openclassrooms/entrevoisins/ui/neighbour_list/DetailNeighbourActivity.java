@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,23 +33,15 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
         initView();
         getIncomingNeighbour();
 
-        retourMainActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO
-                Intent intent = new Intent();
-                intent.putExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS, mCurrentNeighbour);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+        retourMainActivity.setOnClickListener(v -> {
+            //TODO
+            Intent intent = new Intent();
+            intent.putExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS, mCurrentNeighbour);
+            setResult(RESULT_OK, intent);
+            finish();
         });
 
-        favorisFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentNeighbour.setFavoris(true);
-            }
-        });
+        favorisFAB.setOnClickListener(v -> mCurrentNeighbour.setFavoris(true));
     }
 
     public void getIncomingNeighbour(){

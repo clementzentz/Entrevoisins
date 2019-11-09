@@ -50,19 +50,9 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
 
       /*  holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));*/
 
-        holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mInterface.callDeleteNeighbour(neighbour);
-            }
-        });
+        holder.mDeleteButton.setOnClickListener(v -> mInterface.callDeleteNeighbour(neighbour));
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mInterface.LaunchMyActivity(neighbour);
-            }
-        });
+        holder.mView.setOnClickListener(v -> mInterface.LaunchMyActivity(neighbour));
     }
 
     @Override
@@ -77,9 +67,9 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
         public TextView mNeighbourName;
         @BindView(R.id.item_list_delete_button)
         public ImageButton mDeleteButton;
-        public View mView;
+        View mView;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
             mView = view;
