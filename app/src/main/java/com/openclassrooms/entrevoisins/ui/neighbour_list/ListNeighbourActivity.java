@@ -79,7 +79,6 @@ public class ListNeighbourActivity extends AppCompatActivity implements ListActi
         }
     }
 
-    //TODO : implémenter ces methodes dans le service
     public void callAddNeighbourToListFavoris(Neighbour currentNeighbour){
         if(currentNeighbour.isFavoris()){
             mNeighbourApiService.addNeighbourToListFavoris(currentNeighbour);

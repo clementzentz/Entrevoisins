@@ -6,11 +6,8 @@ abstract class AllKeys implements Serializable {
 
     //NeighbourFragment to NeighbourFragment
     static final String BUNDLE_FRAG_INIT_LIST_NEIGHBOUR = "BUNDLE_FRAG_INIT_LIST_NEIGHBOUR";
-/*
-    public static final String BUNDLE_INIT_INTERFACE_LISTACT_TO_FRAG = "BUNDLE_INIT_INTERFACE_LISTACT_TO_FRAG";
-*/
-    static final String BUNDLE_FRAG_INIT_ISFAVORIS = "BUNDLE_FRAG_ISFAVORIS";
 
+    static final String BUNDLE_FRAG_INIT_ISFAVORIS = "BUNDLE_FRAG_ISFAVORIS";
 
     //DetailNeighbourActivity to ListNeighbourActivity
     static final int DETAILNEIGHBOUR_ACTIVITY_REQUEST_CODE = 21;

@@ -34,7 +34,6 @@ public class DetailNeighbourActivity extends AppCompatActivity implements Serial
         getIncomingNeighbour();
 
         retourMainActivity.setOnClickListener(v -> {
-            //TODO
             Intent intent = new Intent();
             intent.putExtra(AllKeys.INTENT_DETAIL_RETOUR_FAVORIS, mCurrentNeighbour);
             setResult(RESULT_OK, intent);

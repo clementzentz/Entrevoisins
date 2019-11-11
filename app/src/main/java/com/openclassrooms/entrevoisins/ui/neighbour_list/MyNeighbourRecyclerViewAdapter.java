@@ -48,8 +48,6 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.mNeighbourAvatar);
 
-      /*  holder.mDeleteButton.setOnClickListener(v -> EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour)));*/
-
         holder.mDeleteButton.setOnClickListener(v -> mInterface.callDeleteNeighbour(neighbour));
 
         holder.mView.setOnClickListener(v -> mInterface.LaunchMyActivity(neighbour));
